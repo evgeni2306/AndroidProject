@@ -3,22 +3,13 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
-import android.view.ViewGroup;
-import android.util.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
-import android.content.Context;
 import android.widget.TextView;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,28 +41,34 @@ public class MainActivity extends AppCompatActivity {
         RegistrationFormButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (EmailField.getText().length()>0 && NameField.getText().length()>0 && SurnameField.getText().length()>0 && PasswordField.getText().length()>0) {
+                if (EmailField.getText().length() > 0 && NameField.getText().length() > 0 && SurnameField.getText().length() > 0 && PasswordField.getText().length() > 0) {
+
+
                     db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
-                            "4 ," +
+                            "1," +
                             "'" + EmailField.getText().toString() + "'" + "," +
                             "'" + NameField.getText().toString() + "'" + "," +
                             "'" + SurnameField.getText().toString() + "'" + "," +
                             "'" + PasswordField.getText().toString() + "'" +
                             ")");
-                    Cursor query = db.rawQuery("SELECT * FROM users;", null);
-//                    if (query.moveToFirst()) {
-//
-//                        String name = query.getString(1);
-//                        System.out.println(name);
-//                    }
+
+                    Cursor query = db.rawQuery("SELECT * FROM users WHERE email = '" + EmailField.getText().toString() + "'", null);
+                    if (query.moveToFirst()) {
+                        String name = query.getString(0);
+                        Intent intent = new Intent(MainActivity.this, Menu.class);
+                        intent.putExtra("id",name);
+                        startActivity(intent);
+                    }
+
+
                 } else {
-//                    System.out.println("asd");
                     MessageField.setText("Заполните все поля");
                 }
 
 
-
             }
+
         });
+
     }
 }

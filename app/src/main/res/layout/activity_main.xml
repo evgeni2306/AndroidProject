@@ -132,5 +132,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.73" />
 
+    <TextView
+        android:id="@+id/RegistrationPageName"
+        android:layout_width="208dp"
+        android:layout_height="41dp"
+        android:text="Регистрация"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.817"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.108" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
