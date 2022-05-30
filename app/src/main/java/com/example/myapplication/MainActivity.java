@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
-                            "1," +
+                            "3," +
                             "'" + EmailField.getText().toString() + "'" + "," +
                             "'" + NameField.getText().toString() + "'" + "," +
                             "'" + SurnameField.getText().toString() + "'" + "," +
