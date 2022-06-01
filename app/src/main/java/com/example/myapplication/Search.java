@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,16 @@ public class Search extends AppCompatActivity {
 
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.ListUsers);
-        UserSearchAdapter MyAdapter = new UserSearchAdapter(this, users);
+
+        UserSearchAdapter.OnStateClickListener stateClickListener = new UserSearchAdapter.OnStateClickListener() {
+            @Override
+            public void onStateClick(UserSearch userSearch, int position) {
+
+                Toast.makeText(getApplicationContext(), "Был выбран пункт " + userSearch.getName(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+        UserSearchAdapter MyAdapter = new UserSearchAdapter(this, users,stateClickListener);
 
         recyclerView.setAdapter(MyAdapter);
 

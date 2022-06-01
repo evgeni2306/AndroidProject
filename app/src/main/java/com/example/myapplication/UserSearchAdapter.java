@@ -14,12 +14,18 @@ import java.util.List;
 
     public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.ViewHolder> {
 
+        interface OnStateClickListener{
+            void onStateClick(UserSearch userSearch, int position);
+        }
+
+        private final OnStateClickListener onClickListener;
         private final LayoutInflater inflater;
         private final List<UserSearch> userSearches;
 
-        UserSearchAdapter(Context context, List<UserSearch> userSearches) {
+        UserSearchAdapter(Context context, List<UserSearch> userSearches,OnStateClickListener onClickListener) {
             this.userSearches = userSearches;
             this.inflater = LayoutInflater.from(context);
+            this.onClickListener = onClickListener;
         }
 
         @Override
@@ -35,6 +41,13 @@ import java.util.List;
             holder.idView.setText(userSearch.getid());
             holder.nameView.setText(userSearch.getName());
             holder.surnameView.setText(userSearch.getSurname());
+            holder.itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v)
+                {
+                    onClickListener.onStateClick(userSearch, position);
+                }
+            });
         }
 
         @Override
@@ -50,6 +63,7 @@ import java.util.List;
                 nameView = view.findViewById(R.id.UserSearchName);
                 surnameView = view.findViewById(R.id.UserSearchSurname);
                 idView = view.findViewById(R.id.UserSearchid);
+
             }
         }
     }
