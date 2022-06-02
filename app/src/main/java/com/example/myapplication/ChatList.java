@@ -28,15 +28,22 @@ public class ChatList extends AppCompatActivity {
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        Cursor query = db.rawQuery("SELECT name,surname,chatid,userid FROM usersinchats LEFT JOIN users WHERE userid ="+mid, null);
-
+        Cursor query = db.rawQuery("SELECT chatid FROM usersinchats  WHERE userid ="+mid, null);
         for (Integer i = 0; i< query.getCount(); i++){
             if(query.moveToPosition(i)){
-                System.out.println(query.getString(1));
-//                if(query.getString(3).toString() != mid.toString()){
-//                    ChatLists.add(new ChatListClass(query.getString(0),query.getString(1),query.getString(2)));
-//                }
+                Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats  WHERE chatid ="+query.getString(0), null);
+                for (Integer s = 0; s< query1.getCount(); s++){
+                    if(query1.moveToPosition(s)) {
+                        Cursor query2 = db.rawQuery("SELECT name,surname FROM users  WHERE id =" + query1.getString(0) + " AND id !=" + mid, null);
+                        if(query2.moveToFirst()){
+                            ChatLists.add(new ChatListClass(query2.getString(0), query2.getString(1), query.getString(0)));
 
+                            query2.close();
+                        }
+
+                    }
+                }
+                query1.close();
             }
         }
 

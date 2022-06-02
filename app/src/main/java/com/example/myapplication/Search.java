@@ -39,7 +39,6 @@ public class Search extends AppCompatActivity {
         GreetingSearch.setText("Найдено пользователей: " + query.getCount());
 
 
-//        setInitialData();
         RecyclerView recyclerView = findViewById(R.id.ListUsers);
 
         UserSearchAdapter.OnStateClickListener stateClickListener = new UserSearchAdapter.OnStateClickListener() {
@@ -49,9 +48,26 @@ public class Search extends AppCompatActivity {
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-                db.execSQL("INSERT OR IGNORE INTO chats VALUES (1)");
-                db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "1,'" + id + "'," + "1)");
-                db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "2,'" + userSearch.getid() + "',"  + "1)");
+                Cursor query3  = db.rawQuery("SELECT id FROM usersinchats ", null);
+                Integer fid = 0;
+                Integer sid =0;
+                Integer chid =0;
+                if (query3.moveToLast()){
+                    fid = query.getInt(0)+1;
+                    sid = fid+1;
+                }else{
+                    fid = 1;
+                sid = fid+1;}
+
+                Cursor query34  = db.rawQuery("SELECT id FROM chats ", null);
+                if (query3.moveToLast()){
+                    chid = query.getInt(0)+1;
+                }else{
+                    chid = 1;}
+                db.execSQL("INSERT OR IGNORE INTO chats VALUES (" +chid+")");
+                db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ fid + ",'" + id + "'," + chid+")");
+
+                db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ sid + ",'" + userSearch.getid() + "',"  + chid+")");
 
                 intent.putExtra("id", id);
                 intent.putExtra("chatid", 1);
@@ -66,10 +82,4 @@ public class Search extends AppCompatActivity {
         recyclerView.setAdapter(MyAdapter);
 
     }
-//    private void setInitialData(){
-//        users.add(new UserSearch("имяsd","Фамилияsd","Айдиsd"));
-//        users.add(new UserSearch("имя1","Фамилия2","Айди3"));
-//
-//
-//    }
 }

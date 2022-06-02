@@ -52,7 +52,6 @@ public class Menu extends AppCompatActivity {
         });
 
 
-//        Bundle arguments = getIntent().getExtras();
-//        System.out.println(arguments.get("id"));
+
     }
 }

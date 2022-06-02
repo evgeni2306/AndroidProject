@@ -23,32 +23,64 @@ public class Chat extends AppCompatActivity {
 
         ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
 
+        Button SendButton = findViewById(R.id.SendMessageButton);
+        EditText MessageField = findViewById(R.id.MessageField);
         Bundle arguments = getIntent().getExtras();
         String mid = arguments.get("id").toString();
-        String aid = arguments.get("chatid").toString();
+        String cid = arguments.get("chatid").toString();
+        TextView AnotherUserName = findViewById(R.id.AnotherUserName);
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-//        db.execSQL("INSERT OR IGNORE INTO chats VALUES (1)");
-//        db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "1,'" + mid + "'," + "1)");
-//        db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "1,'" + aid + "',"  + "1)");
-//        db.execSQL("INSERT OR IGNORE INTO messages VALUES ("+ "1,'" + aid + "',1," + "'privet')");
 
         Cursor query = db.rawQuery("SELECT * FROM messages WHERE chatid = 1", null);
-        if (query.moveToFirst()) {
-            String name = query.getString(0);
-            String name2 = query.getString(1);
-            String name3 = query.getString(2);
-            String name4 = query.getString(3);
-            System.out.println(name + "_" + name2 + "_" + name3 + "_" + name4);
-            messages.add(new UserMessage ("Петр", "Петров", "privet"));
+        for (Integer i = 0; i< query.getCount(); i++) {
+            if (query.moveToPosition(i)) {
+                Cursor query1 = db.rawQuery("SELECT name,surname FROM users WHERE id =" + query.getString(1), null);
+                if (query1.moveToFirst()) {
+                    messages.add(new UserMessage(query1.getString(0), query1.getString(1), query.getString(3)));
+                    query1.close();
+                }
+            }
         }
+String Anothername = "";
+        Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats WHERE chatid = 1 AND userid!=" + mid, null);
+        if (query1.moveToFirst()){
+            Anothername = query1.getString(0);
+        }
+        query1.close();
+        Cursor query2 = db.rawQuery("SELECT name,surname FROM users WHERE id =" + Anothername.toString() , null);
 
+        if (query2.moveToFirst()){
+            Anothername = query2.getString(0) + " " + query2.getString(1);
+            query2.close();
+        }
+        AnotherUserName.setText(Anothername);
         RecyclerView recyclerView = findViewById(R.id.messagesList);
         UserMessageAdapter MyAdapter = new UserMessageAdapter(this, messages);
 
         recyclerView.setAdapter(MyAdapter);
 
+        SendButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (MessageField.length()>0){
+
+
+                    Cursor query3  = db.rawQuery("SELECT id FROM messages WHERE chatid = 1", null);
+                    Integer mesid = 0;
+                    if (query3.moveToLast()){
+                          mesid = query.getInt(0)+1;
+                    }else{
+                       mesid = 1;}
+
+                    db.execSQL("INSERT OR IGNORE INTO messages VALUES ("+ mesid +","+mid +"," +cid+ ",'"+MessageField.getText().toString()+"')");
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        });
+
     }
+
 
 }
