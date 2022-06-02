@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_chat.xml" value="0.15625" />
         <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_menu.xml" value="0.146875" />
         <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_menu2.xml" value="0.2546875" />
-        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_search.xml" value="0.268" />
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_search.xml" value="0.4" />
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/message.xml" value="0.268" />
         <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/user_search_result.xml" value="0.5930521091811415" />
       </map>
     </option>

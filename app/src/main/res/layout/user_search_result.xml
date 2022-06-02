@@ -21,31 +21,32 @@
 
     <TextView
         android:id="@+id/UserSearchSurname"
-        android:layout_width="128dp"
+        android:layout_width="156dp"
         android:layout_height="50dp"
         android:text="Фамилия"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.367"
+        app:layout_constraintHorizontal_bias="0.619"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/UserSearchid"
-        android:layout_width="179dp"
-        android:layout_height="50dp"
+        android:layout_width="61dp"
+        android:layout_height="51dp"
         android:text="Айди"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/UserSearchName"
-        android:layout_width="103dp"
+        android:layout_width="158dp"
         android:layout_height="50dp"
         android:text="Имя"
         app:layout_constraintBottom_toBottomOf="parent"

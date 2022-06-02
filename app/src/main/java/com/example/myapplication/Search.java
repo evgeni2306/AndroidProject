@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
 import java.util.ArrayList;
 
@@ -35,24 +36,21 @@ public class Search extends AppCompatActivity {
                 users.add(new UserSearch(query.getString(0),query.getString(1),query.getString(2)));
             }
         }
-//        if (query.moveToFirst()) {
-//            String name = query.getString(0);
-//            String surname = query.getString(1);
-//
-//        }
-//        System.out.println(query.getCount());
         GreetingSearch.setText("Найдено пользователей: " + query.getCount());
 
 
-        setInitialData();
+//        setInitialData();
         RecyclerView recyclerView = findViewById(R.id.ListUsers);
 
         UserSearchAdapter.OnStateClickListener stateClickListener = new UserSearchAdapter.OnStateClickListener() {
             @Override
             public void onStateClick(UserSearch userSearch, int position) {
+//                userSearch.getid()
+                Intent intent = new Intent(Search.this, Chat.class);
+                intent.putExtra("id", id);
+                intent.putExtra("anotherUserId", userSearch.getid());
+                startActivity(intent);
 
-                Toast.makeText(getApplicationContext(), "Был выбран пункт " + userSearch.getName(),
-                        Toast.LENGTH_SHORT).show();
             }
         };
         UserSearchAdapter MyAdapter = new UserSearchAdapter(this, users,stateClickListener);
@@ -60,10 +58,10 @@ public class Search extends AppCompatActivity {
         recyclerView.setAdapter(MyAdapter);
 
     }
-    private void setInitialData(){
-        users.add(new UserSearch("имяsd","Фамилияsd","Айдиsd"));
-        users.add(new UserSearch("имя1","Фамилия2","Айди3"));
-
-
-    }
+//    private void setInitialData(){
+//        users.add(new UserSearch("имяsd","Фамилияsd","Айдиsd"));
+//        users.add(new UserSearch("имя1","Фамилия2","Айди3"));
+//
+//
+//    }
 }
