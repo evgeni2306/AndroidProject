@@ -45,11 +45,19 @@ public class Search extends AppCompatActivity {
         UserSearchAdapter.OnStateClickListener stateClickListener = new UserSearchAdapter.OnStateClickListener() {
             @Override
             public void onStateClick(UserSearch userSearch, int position) {
-//                userSearch.getid()
                 Intent intent = new Intent(Search.this, Chat.class);
+
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+                db.execSQL("INSERT OR IGNORE INTO chats VALUES (1)");
+                db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "1,'" + id + "'," + "1)");
+                db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "2,'" + userSearch.getid() + "',"  + "1)");
+
                 intent.putExtra("id", id);
-                intent.putExtra("anotherUserId", userSearch.getid());
+                intent.putExtra("chatid", 1);
                 startActivity(intent);
+
+
 
             }
         };

@@ -25,14 +25,14 @@ public class Chat extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
         String mid = arguments.get("id").toString();
-        String aid = arguments.get("anotherUserId").toString();
+        String aid = arguments.get("chatid").toString();
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        db.execSQL("INSERT OR IGNORE INTO chats VALUES (1)");
-        db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "1,'" + mid + "'," + "1)");
-        db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "1,'" + aid + "',"  + "1)");
-        db.execSQL("INSERT OR IGNORE INTO messages VALUES ("+ "1,'" + aid + "',1," + "'privet')");
+//        db.execSQL("INSERT OR IGNORE INTO chats VALUES (1)");
+//        db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "1,'" + mid + "'," + "1)");
+//        db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES ("+ "1,'" + aid + "',"  + "1)");
+//        db.execSQL("INSERT OR IGNORE INTO messages VALUES ("+ "1,'" + aid + "',1," + "'privet')");
 
         Cursor query = db.rawQuery("SELECT * FROM messages WHERE chatid = 1", null);
         if (query.moveToFirst()) {

@@ -20,6 +20,7 @@ public class Menu extends AppCompatActivity {
 
         TextView GreetingText = findViewById(R.id.Greetingtext);
         Button SearchButton = findViewById(R.id.Search);
+        Button ChatListButton = findViewById(R.id.Chats);
         Bundle arguments = getIntent().getExtras();
         String id = arguments.get("id").toString();
 
@@ -37,6 +38,14 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Menu.this, Search.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
+        ChatListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Menu.this, ChatList.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
             }

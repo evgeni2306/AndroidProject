@@ -41,6 +41,7 @@ import java.util.List;
             holder.idView.setText(userSearch.getid());
             holder.nameView.setText(userSearch.getName());
             holder.surnameView.setText(userSearch.getSurname());
+
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v)

@@ -45,11 +45,21 @@ public class MainActivity extends AppCompatActivity {
 
 
                     db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
-                            "2," +
+                            "1," +
                             "'" + EmailField.getText().toString() + "'" + "," +
                             "'" + NameField.getText().toString() + "'" + "," +
                             "'" + SurnameField.getText().toString() + "'" + "," +
                             "'" + PasswordField.getText().toString() + "'" +
+                            ")");
+
+
+//                  юзер "по умолчанию" для демонстрации функционала
+                    db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
+                            "2," +
+                            "'" + "email@mail.ru" + "'" + "," +
+                            "'" + "Петр" + "'" + "," +
+                            "'" + "Петров" + "'" + "," +
+                            "'" + "12345" + "'" +
                             ")");
 
                     Cursor query = db.rawQuery("SELECT * FROM users WHERE email = '" + EmailField.getText().toString() + "'", null);
