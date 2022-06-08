@@ -13,14 +13,14 @@ import java.util.List;
 public class ChatListClassAdapter extends RecyclerView.Adapter<ChatListClassAdapter.ViewHolder> {
 
     interface OnStateClickListener {
-        void onStateClick(ChatListClass ListClass, int position);
+        void onStateClick(ChatList ListClass, int position);
     }
 
     private final OnStateClickListener onClickListener;
     private final LayoutInflater inflater;
-    private final List<ChatListClass> userMessages;
+    private final List<ChatList> userMessages;
 
-    ChatListClassAdapter(Context context, List<ChatListClass> chatLists, OnStateClickListener onClickListener) {
+    ChatListClassAdapter(Context context, List<ChatList> chatLists, OnStateClickListener onClickListener) {
         this.userMessages = chatLists;
         this.inflater = LayoutInflater.from(context);
         this.onClickListener = onClickListener;
@@ -35,7 +35,7 @@ public class ChatListClassAdapter extends RecyclerView.Adapter<ChatListClassAdap
 
     @Override
     public void onBindViewHolder(ChatListClassAdapter.ViewHolder holder, int position) {
-        ChatListClass chatlistt = userMessages.get(position);
+        ChatList chatlistt = userMessages.get(position);
         holder.nameView.setText(chatlistt.getName());
         holder.surnameView.setText(chatlistt.getSurname());
         holder.idView.setText(chatlistt.getid());

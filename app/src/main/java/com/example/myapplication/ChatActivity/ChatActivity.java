@@ -14,7 +14,7 @@ import android.content.Intent;
 
 import java.util.ArrayList;
 
-public class Chat extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

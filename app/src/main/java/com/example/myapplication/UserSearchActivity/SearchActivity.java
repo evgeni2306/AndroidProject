@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.Intent;
 
 import java.util.ArrayList;
 
-public class Search extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     ArrayList<UserSearch> users = new ArrayList<UserSearch>();
 
@@ -44,7 +43,7 @@ public class Search extends AppCompatActivity {
         UserSearchAdapter.OnStateClickListener stateClickListener = new UserSearchAdapter.OnStateClickListener() {
             @Override
             public void onStateClick(UserSearch userSearch, int position) {
-                Intent intent = new Intent(Search.this, Chat.class);
+                Intent intent = new Intent(SearchActivity.this, ChatActivity.class);
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 

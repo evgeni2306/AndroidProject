@@ -11,6 +11,8 @@ import android.database.Cursor;
 import android.widget.TextView;
 import android.content.Intent;
 
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     Cursor query = db.rawQuery("SELECT * FROM users WHERE email = '" + EmailField.getText().toString() + "'", null);
                     if (query.moveToFirst()) {
                         String name = query.getString(0);
-                        Intent intent = new Intent(MainActivity.this, Menu.class);
+                        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                         intent.putExtra("id",name);
                         startActivity(intent);
                     }

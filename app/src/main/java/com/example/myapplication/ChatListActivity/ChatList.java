@@ -1,12 +1,12 @@
 package com.example.myapplication;
 
-public class ChatListClass {
+public class ChatList {
     private String name;
     private String surname;
 
     private String id;
 
-    public ChatListClass(String name, String surname, String id) {
+    public ChatList(String name, String surname, String id) {
 
         this.name = name;
         this.surname = surname;

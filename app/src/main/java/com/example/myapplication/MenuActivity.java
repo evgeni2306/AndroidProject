@@ -4,13 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.TextView;
 import android.content.Intent;
 
-public class Menu extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ public class Menu extends AppCompatActivity {
         SearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Menu.this, Search.class);
+                Intent intent = new Intent(MenuActivity.this, SearchActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
             }
@@ -45,7 +44,7 @@ public class Menu extends AppCompatActivity {
         ChatListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Menu.this, ChatList.class);
+                Intent intent = new Intent(MenuActivity.this, ChatListActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
             }

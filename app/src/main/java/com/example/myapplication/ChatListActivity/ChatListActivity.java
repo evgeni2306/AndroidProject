@@ -4,19 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
-import android.widget.TextView;
 import android.content.Intent;
 
 import java.util.ArrayList;
+public class ChatListActivity extends AppCompatActivity {
 
-public class ChatList extends AppCompatActivity {
-
-    ArrayList<ChatListClass> ChatLists = new ArrayList<ChatListClass>();
+    ArrayList<ChatList> ChatLists = new ArrayList<ChatList>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +31,7 @@ public class ChatList extends AppCompatActivity {
                     if(query1.moveToPosition(s)) {
                         Cursor query2 = db.rawQuery("SELECT name,surname FROM users  WHERE id =" + query1.getString(0) + " AND id !=" + mid, null);
                         if(query2.moveToFirst()){
-                            ChatLists.add(new ChatListClass(query2.getString(0), query2.getString(1), query.getString(0)));
+                            ChatLists.add(new ChatList(query2.getString(0), query2.getString(1), query.getString(0)));
 
                             query2.close();
                         }
@@ -54,8 +49,8 @@ public class ChatList extends AppCompatActivity {
 
         ChatListClassAdapter.OnStateClickListener stateClickListener = new ChatListClassAdapter.OnStateClickListener() {
             @Override
-            public  void onStateClick(ChatListClass getid, int position) {
-                Intent intent = new Intent(ChatList.this, Chat.class);
+            public  void onStateClick(ChatList getid, int position) {
+                Intent intent = new Intent(ChatListActivity.this, ChatActivity.class);
                 intent.putExtra("id", mid);
                 intent.putExtra("chatid", getid.getid());
                 startActivity(intent);
