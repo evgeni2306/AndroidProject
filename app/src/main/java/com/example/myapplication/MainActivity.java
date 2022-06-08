@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.example.myapplication.DatabaseWork.DbRequest;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,15 +22,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users (id INTEGER UNIQUE  ,email TEXT,name TEXT,surname TEXT, password TEXT," +
-                "PRIMARY KEY(\"id\" AUTOINCREMENT))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS chats (id INTEGER UNIQUE,   PRIMARY KEY(\"id\"  AUTOINCREMENT))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS messages (id INTEGER UNIQUE,creatorid INTEGER, chatid INTEGER, text TEXT,FOREIGN KEY(creatorid) REFERENCES users(id),FOREIGN KEY(chatid) REFERENCES chats(id),   PRIMARY KEY(\"id\"  AUTOINCREMENT))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS usersinchats (id INTEGER UNIQUE, userid INTEGER, chatid INTEGER,  FOREIGN KEY(userid) REFERENCES users(id),FOREIGN KEY(chatid) REFERENCES chats(id),   PRIMARY KEY(\"id\"  AUTOINCREMENT))");
-//        db.execSQL("DROP TABLE users");
-//        db.execSQL("DROP TABLE messages");
-//        db.execSQL("DROP TABLE chats");
-//        db.execSQL("DROP TABLE usersinchats");
+        DbRequest dbRequest = new DbRequest();
+        dbRequest.CreateTables(db);
+//        dbRequest.DropDatabase(db);
 
 
         Button RegistrationFormButton = findViewById(R.id.RegistrationFormButton);
@@ -45,31 +40,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (EmailField.getText().length() > 0 && NameField.getText().length() > 0 && SurnameField.getText().length() > 0 && PasswordField.getText().length() > 0) {
 
+                    if (CheckEmail(EmailField.getText().toString()) == true) {
+                        Integer id = dbRequest.AddNewUser(db, EmailField.getText().toString(), NameField.getText().toString(), SurnameField.getText().toString(), PasswordField.getText().toString());
 
-                    db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
-                            "1," +
-                            "'" + EmailField.getText().toString() + "'" + "," +
-                            "'" + NameField.getText().toString() + "'" + "," +
-                            "'" + SurnameField.getText().toString() + "'" + "," +
-                            "'" + PasswordField.getText().toString() + "'" +
-                            ")");
-
-
-//                  юзер "по умолчанию" для демонстрации функционала
-                    db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
-                            "2," +
-                            "'" + "email@mail.ru" + "'" + "," +
-                            "'" + "Петр" + "'" + "," +
-                            "'" + "Петров" + "'" + "," +
-                            "'" + "12345" + "'" +
-                            ")");
-
-                    Cursor query = db.rawQuery("SELECT * FROM users WHERE email = '" + EmailField.getText().toString() + "'", null);
-                    if (query.moveToFirst()) {
-                        String name = query.getString(0);
                         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                        intent.putExtra("id",name);
+                        intent.putExtra("id", id);
                         startActivity(intent);
+                    } else {
+                        MessageField.setText("Email некорректен");
                     }
 
 
@@ -81,6 +59,22 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+    }
+
+    public boolean CheckEmail(String email) {
+        boolean check = false;
+        for (Integer i = 0; i < email.length(); i++) {
+//            System.out.println(email.charAt(i));
+            if (email.charAt(i) =='@'  && i != 0 && i != email.length() - 1) {
+                check = true;
+            }
+        }
+        if (check == true) {
+            return check;
+        } else {
+            return check;
+        }
 
     }
 }
