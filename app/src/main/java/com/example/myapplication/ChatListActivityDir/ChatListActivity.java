@@ -1,13 +1,13 @@
-package com.example.myapplication;
+package com.example.myapplication.ChatListActivityDir;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.myapplication.R;
 import android.os.Bundle;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.content.Intent;
-
+import com.example.myapplication.ChatActivityDir.ChatActivity;
 import java.util.ArrayList;
 public class ChatListActivity extends AppCompatActivity {
 

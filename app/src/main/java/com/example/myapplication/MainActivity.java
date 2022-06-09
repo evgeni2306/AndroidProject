@@ -42,22 +42,16 @@ public class MainActivity extends AppCompatActivity {
 
                     if (CheckEmail(EmailField.getText().toString()) == true) {
                         Integer id = dbRequest.AddNewUser(db, EmailField.getText().toString(), NameField.getText().toString(), SurnameField.getText().toString(), PasswordField.getText().toString());
-
                         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                         intent.putExtra("id", id);
                         startActivity(intent);
                     } else {
                         MessageField.setText("Email некорректен");
                     }
-
-
                 } else {
                     MessageField.setText("Заполните все поля");
                 }
-
-
             }
-
         });
 
     }
@@ -65,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean CheckEmail(String email) {
         boolean check = false;
         for (Integer i = 0; i < email.length(); i++) {
-//            System.out.println(email.charAt(i));
-            if (email.charAt(i) =='@'  && i != 0 && i != email.length() - 1) {
+            if (email.charAt(i) == '@' && i != 0 && i != email.length() - 1) {
                 check = true;
             }
         }

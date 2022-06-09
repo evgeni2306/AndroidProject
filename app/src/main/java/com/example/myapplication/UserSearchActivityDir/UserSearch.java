@@ -1,17 +1,15 @@
-package com.example.myapplication;
+package com.example.myapplication.UserSearchActivityDir;
 
-public class ChatList {
+public class UserSearch {
     private String name;
     private String surname;
-
     private String id;
 
-    public ChatList(String name, String surname, String id) {
+    public UserSearch(String name, String surname, String id){
 
-        this.name = name;
+        this.name=name;
         this.surname = surname;
-
-        this.id = id;
+        this.id=id;
     }
 
     public String getName() {
@@ -30,7 +28,11 @@ public class ChatList {
         this.surname = surname;
     }
 
+    public String getid() {
+        return this.id;
+    }
 
-    public String getid(){return this.id;}
-    public void setid(String id){this.id=id;}
+    public void setid(String id) {
+        this.id = id;
+    }
 }

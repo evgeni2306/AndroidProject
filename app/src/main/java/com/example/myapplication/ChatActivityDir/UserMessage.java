@@ -1,15 +1,15 @@
-package com.example.myapplication;
+package com.example.myapplication.ChatActivityDir;
 
-public class UserSearch {
+public class UserMessage {
     private String name;
     private String surname;
-    private String id;
+    private String text;
 
-    public UserSearch(String name, String surname, String id){
+    public UserMessage(String name, String surname, String text){
 
         this.name=name;
         this.surname = surname;
-        this.id=id;
+        this.text=text;
     }
 
     public String getName() {
@@ -28,11 +28,11 @@ public class UserSearch {
         this.surname = surname;
     }
 
-    public String getid() {
-        return this.id;
+    public String gettext() {
+        return this.text;
     }
 
-    public void setid(String id) {
-        this.id = id;
+    public void settext(String text) {
+        this.text = text;
     }
 }

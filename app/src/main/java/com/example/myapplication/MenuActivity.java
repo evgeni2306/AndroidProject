@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.TextView;
 import android.content.Intent;
+import com.example.myapplication.UserSearchActivityDir.SearchActivity;
+import com.example.myapplication.ChatListActivityDir.ChatListActivity;
+import com.example.myapplication.DatabaseWork.DbRequest;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -25,13 +29,11 @@ public class MenuActivity extends AppCompatActivity {
 
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-        Cursor query = db.rawQuery("SELECT name,surname FROM users WHERE id ="+id, null);
-        if (query.moveToFirst()) {
-            String name = query.getString(0);
-            String surname = query.getString(1);
+        DbRequest dbRequest = new DbRequest();
 
-            GreetingText.setText( "Здравствуйте " +name +" "+ surname);
-        }
+        String username = dbRequest.MenuGetUserName(db,id);
+            GreetingText.setText("Здравствуйте " + username);
+
 
         SearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +51,6 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
 
     }

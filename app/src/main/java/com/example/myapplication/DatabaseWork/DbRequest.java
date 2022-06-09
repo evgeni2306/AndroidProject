@@ -11,10 +11,13 @@ import android.content.Intent;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.MenuActivity;
+import com.example.myapplication.UserSearchActivityDir.UserSearch;
+
+import java.util.ArrayList;
 
 public class DbRequest {
 
-    public void CreateTables(SQLiteDatabase db){
+    public void CreateTables(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS users (id INTEGER UNIQUE  ,email TEXT,name TEXT,surname TEXT, password TEXT," +
                 "PRIMARY KEY(\"id\" AUTOINCREMENT))");
         db.execSQL("CREATE TABLE IF NOT EXISTS chats (id INTEGER UNIQUE,   PRIMARY KEY(\"id\"  AUTOINCREMENT))");
@@ -22,18 +25,20 @@ public class DbRequest {
         db.execSQL("CREATE TABLE IF NOT EXISTS usersinchats (id INTEGER UNIQUE, userid INTEGER, chatid INTEGER,  FOREIGN KEY(userid) REFERENCES users(id),FOREIGN KEY(chatid) REFERENCES chats(id),   PRIMARY KEY(\"id\"  AUTOINCREMENT))");
         AddDefaultUser(db);
     }
-    public void DropDatabase(SQLiteDatabase db){
-                db.execSQL("DROP TABLE users");
+
+    public void DropDatabase(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE users");
         db.execSQL("DROP TABLE messages");
         db.execSQL("DROP TABLE chats");
         db.execSQL("DROP TABLE usersinchats");
     }
-    public Integer AddNewUser(SQLiteDatabase db, String email, String name, String surname, String password ){
+
+    public Integer AddNewUser(SQLiteDatabase db, String email, String name, String surname, String password) {
 
         Integer lastid = 0;
         Cursor query = db.rawQuery("SELECT id FROM users ", null);
         if (query.moveToLast()) {
-             lastid = query.getInt(0)+1;
+            lastid = query.getInt(0) + 1;
         }
         db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
                 lastid + "," +
@@ -42,11 +47,11 @@ public class DbRequest {
                 "'" + surname + "'" + "," +
                 "'" + password + "'" +
                 ")");
-
+        query.close();
         return lastid;
     }
 
-    public void AddDefaultUser(SQLiteDatabase db){
+    public void AddDefaultUser(SQLiteDatabase db) {
 
         db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
                 "1," +
@@ -55,5 +60,33 @@ public class DbRequest {
                 "'" + "Петров" + "'" + "," +
                 "'" + "12345" + "'" +
                 ")");
+    }
+
+    public String MenuGetUserName(SQLiteDatabase db, String id) {
+        Cursor query = db.rawQuery("SELECT name,surname FROM users WHERE id =" + id, null);
+        if (query.moveToFirst()) {
+            String name = query.getString(0);
+            String surname = query.getString(1);
+            query.close();
+            return name + " " + surname;
+        } else {
+            query.close();
+            return null;
+        }
+    }
+    public ArrayList<UserSearch> UserSearchGetUsers(SQLiteDatabase db, String id){
+        ArrayList<UserSearch> users = new ArrayList<UserSearch>();
+
+        Cursor query = db.rawQuery("SELECT name,surname,id FROM users WHERE id !=" + id, null);
+        for (Integer i = 0; i< query.getCount(); i++){
+            if(query.moveToPosition(i)){
+                users.add(new UserSearch(query.getString(0),query.getString(1),query.getString(2)));
+            }
+        }
+        query.close();
+        return users;
+    }
+    public UserSearchGetLastUserInChatId(SQLiteDatabase db, String id){
+
     }
 }
