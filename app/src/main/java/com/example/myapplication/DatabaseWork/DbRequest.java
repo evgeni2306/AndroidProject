@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.example.myapplication.ChatListActivityDir.ChatList;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.MenuActivity;
 import com.example.myapplication.UserSearchActivityDir.UserSearch;
@@ -114,5 +115,39 @@ public class DbRequest {
             query34.close();
             return chid;
         }
+    }
+
+    public void UserSearchCreateChat(SQLiteDatabase db,Integer chid){
+        db.execSQL("INSERT OR IGNORE INTO chats VALUES (" + chid + ")");
+    }
+    public void UserSearchCreateUserInChat(SQLiteDatabase db,Integer fid, String id, Integer chid){
+        db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES (" + fid + ",'" + id + "'," + chid + ")");
+    }
+
+    public ArrayList<ChatList> ChatListGetCurrentUserChats(SQLiteDatabase db,String mid){
+
+        ArrayList<ChatList> ChatLists = new ArrayList<ChatList>();
+
+        Cursor query = db.rawQuery("SELECT chatid FROM usersinchats  WHERE userid ="+mid, null);
+        for (Integer i = 0; i< query.getCount(); i++){
+            if(query.moveToPosition(i)){
+                Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats  WHERE chatid ="+query.getString(0), null);
+                for (Integer s = 0; s< query1.getCount(); s++){
+                    if(query1.moveToPosition(s)) {
+                        Cursor query2 = db.rawQuery("SELECT name,surname FROM users  WHERE id =" + query1.getString(0) + " AND id !=" + mid, null);
+                        if(query2.moveToFirst()){
+                            ChatLists.add(new ChatList(query2.getString(0), query2.getString(1), query.getString(0)));
+
+                            query2.close();
+                        }
+
+                    }
+                }
+                query1.close();
+
+            }
+
+        }
+        return ChatLists;
     }
 }

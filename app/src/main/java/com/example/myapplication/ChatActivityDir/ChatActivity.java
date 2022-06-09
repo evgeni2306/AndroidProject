@@ -33,7 +33,7 @@ public class ChatActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
 
-        Cursor query = db.rawQuery("SELECT * FROM messages WHERE chatid = 1", null);
+        Cursor query = db.rawQuery("SELECT * FROM messages WHERE chatid = " + cid, null);
         for (Integer i = 0; i< query.getCount(); i++) {
             if (query.moveToPosition(i)) {
                 Cursor query1 = db.rawQuery("SELECT name,surname FROM users WHERE id =" + query.getString(1), null);
@@ -44,7 +44,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         }
 String Anothername = "";
-        Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats WHERE chatid = 1 AND userid!=" + mid, null);
+        Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats WHERE chatid = "+cid+" AND userid!=" + mid, null);
         if (query1.moveToFirst()){
             Anothername = query1.getString(0);
         }
@@ -66,7 +66,7 @@ String Anothername = "";
                 if (MessageField.length()>0){
 
 
-                    Cursor query3  = db.rawQuery("SELECT id FROM messages WHERE chatid = 1", null);
+                    Cursor query3  = db.rawQuery("SELECT id FROM messages ", null);
                     Integer mesid = 0;
                     if (query3.moveToLast()){
                           mesid = query.getInt(0)+1;
@@ -74,6 +74,7 @@ String Anothername = "";
                        mesid = 1;}
 
                     db.execSQL("INSERT OR IGNORE INTO messages VALUES ("+ mesid +","+mid +"," +cid+ ",'"+MessageField.getText().toString()+"')");
+
                     finish();
                     startActivity(getIntent());
                 }

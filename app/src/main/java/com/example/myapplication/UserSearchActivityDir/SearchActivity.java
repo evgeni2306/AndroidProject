@@ -50,12 +50,9 @@ public class SearchActivity extends AppCompatActivity {
                 Integer sid = fid+1;
                 Integer chid = dbRequest.UserSearchGetLastChatId(db);
 
-
-
-                db.execSQL("INSERT OR IGNORE INTO chats VALUES (" + chid + ")");
-                db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES (" + fid + ",'" + id + "'," + chid + ")");
-
-                db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES (" + sid + ",'" + userSearch.getid() + "'," + chid + ")");
+                dbRequest.UserSearchCreateChat(db,chid);
+                dbRequest.UserSearchCreateUserInChat(db,fid,id,chid);
+                dbRequest.UserSearchCreateUserInChat(db,sid,userSearch.getid(),chid);
 
                 intent.putExtra("id", id);
                 intent.putExtra("chatid", 1);
