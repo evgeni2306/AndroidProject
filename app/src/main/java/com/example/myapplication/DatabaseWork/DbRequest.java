@@ -74,19 +74,45 @@ public class DbRequest {
             return null;
         }
     }
-    public ArrayList<UserSearch> UserSearchGetUsers(SQLiteDatabase db, String id){
+
+    public ArrayList<UserSearch> UserSearchGetUsers(SQLiteDatabase db, String id) {
         ArrayList<UserSearch> users = new ArrayList<UserSearch>();
 
         Cursor query = db.rawQuery("SELECT name,surname,id FROM users WHERE id !=" + id, null);
-        for (Integer i = 0; i< query.getCount(); i++){
-            if(query.moveToPosition(i)){
-                users.add(new UserSearch(query.getString(0),query.getString(1),query.getString(2)));
+        for (Integer i = 0; i < query.getCount(); i++) {
+            if (query.moveToPosition(i)) {
+                users.add(new UserSearch(query.getString(0), query.getString(1), query.getString(2)));
             }
         }
         query.close();
         return users;
     }
-    public UserSearchGetLastUserInChatId(SQLiteDatabase db, String id){
 
+    public Integer UserSearchGetLastUserInChatId(SQLiteDatabase db) {
+        Cursor query3 = db.rawQuery("SELECT id FROM usersinchats ", null);
+        Integer fid = 0;
+        if (query3.moveToLast()) {
+            fid = query3.getInt(0) + 1;
+            query3.close();
+            return fid;
+        } else {
+            fid = 1;
+            query3.close();
+            return fid;
+        }
+    }
+
+    public Integer UserSearchGetLastChatId(SQLiteDatabase db) {
+        Cursor query34 = db.rawQuery("SELECT id FROM chats ", null);
+        Integer chid = 0;
+        if (query34.moveToLast()) {
+            chid = query34.getInt(0) + 1;
+            query34.close();
+            return chid;
+        } else {
+            chid = 1;
+            query34.close();
+            return chid;
+        }
     }
 }

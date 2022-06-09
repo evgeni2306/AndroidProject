@@ -46,25 +46,12 @@ public class SearchActivity extends AppCompatActivity {
                 Intent intent = new Intent(SearchActivity.this, ChatActivity.class);
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                Integer fid = dbRequest.UserSearchGetLastUserInChatId(db);
+                Integer sid = fid+1;
+                Integer chid = dbRequest.UserSearchGetLastChatId(db);
 
-                Cursor query3 = db.rawQuery("SELECT id FROM usersinchats ", null);
-                Integer fid = 0;
-                Integer sid = 0;
-                Integer chid = 0;
-                if (query3.moveToLast()) {
-                    fid = query3.getInt(0) + 1;
-                    sid = fid + 1;
-                } else {
-                    fid = 1;
-                    sid = fid + 1;
-                }
 
-                Cursor query34 = db.rawQuery("SELECT id FROM chats ", null);
-                if (query34.moveToLast()) {
-                    chid = query34.getInt(0) + 1;
-                } else {
-                    chid = 1;
-                }
+
                 db.execSQL("INSERT OR IGNORE INTO chats VALUES (" + chid + ")");
                 db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES (" + fid + ",'" + id + "'," + chid + ")");
 
