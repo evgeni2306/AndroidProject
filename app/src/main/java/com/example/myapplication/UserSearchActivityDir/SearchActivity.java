@@ -47,7 +47,6 @@ public class SearchActivity extends AppCompatActivity {
                 Intent intent = new Intent(SearchActivity.this, ChatActivity.class);
                 intent.putExtra("id", id);
                 Integer Check = dbRequest.UserSearchCheckChatExist(db,id,userSearch.getid());
-//                System.out.println(Check);
                 if (Check == 0){
 
                     Integer fid = dbRequest.UserSearchGetLastUserInChatId(db);

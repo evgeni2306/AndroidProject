@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_chat.xml" value="0.3" />
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout-land/activity_chat.xml" value="0.2156084656084656" />
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout-land/activity_chat_list.xml" value="0.2156084656084656" />
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout-land/activity_main.xml" value="0.36" />
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout-land/activity_menu.xml" value="0.2156084656084656" />
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout-land/activity_search.xml" value="0.2156084656084656" />
+        <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_chat.xml" value="0.2" />
         <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_chat_list.xml" value="0.3" />
         <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/evgen/IntelliJIDEAProjects/AndroidProject/app/src/main/res/layout/activity_menu.xml" value="0.146875" />
