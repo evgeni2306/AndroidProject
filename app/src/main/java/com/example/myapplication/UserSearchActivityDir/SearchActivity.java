@@ -43,19 +43,25 @@ public class SearchActivity extends AppCompatActivity {
         UserSearchAdapter.OnStateClickListener stateClickListener = new UserSearchAdapter.OnStateClickListener() {
             @Override
             public void onStateClick(UserSearch userSearch, int position) {
+
                 Intent intent = new Intent(SearchActivity.this, ChatActivity.class);
-
-                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-                Integer fid = dbRequest.UserSearchGetLastUserInChatId(db);
-                Integer sid = fid+1;
-                Integer chid = dbRequest.UserSearchGetLastChatId(db);
-
-                dbRequest.UserSearchCreateChat(db,chid);
-                dbRequest.UserSearchCreateUserInChat(db,fid,id,chid);
-                dbRequest.UserSearchCreateUserInChat(db,sid,userSearch.getid(),chid);
-
                 intent.putExtra("id", id);
-                intent.putExtra("chatid", 1);
+                Integer Check = dbRequest.UserSearchCheckChatExist(db,id,userSearch.getid());
+//                System.out.println(Check);
+                if (Check == 0){
+
+                    Integer fid = dbRequest.UserSearchGetLastUserInChatId(db);
+                    Integer sid = fid+1;
+                    Integer chid = dbRequest.UserSearchGetLastChatId(db);
+                    dbRequest.UserSearchCreateChat(db,chid);
+                    dbRequest.UserSearchCreateUserInChat(db,fid,id,chid);
+                    dbRequest.UserSearchCreateUserInChat(db,sid,userSearch.getid(),chid);
+
+                    intent.putExtra("chatid", chid);
+
+                }else{
+                    intent.putExtra("chatid", Check);
+                }
                 startActivity(intent);
 
 

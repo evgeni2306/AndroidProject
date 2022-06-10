@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.example.myapplication.ChatActivityDir.UserMessage;
 import com.example.myapplication.ChatListActivityDir.ChatList;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.MenuActivity;
@@ -103,6 +104,26 @@ public class DbRequest {
         }
     }
 
+    public Integer UserSearchCheckChatExist(SQLiteDatabase db, String mid, String aid) {
+        Integer chatid =0;
+        Cursor query34 = db.rawQuery("SELECT id FROM usersinchats WHERE userid = " + mid, null);
+        for (Integer i = 0; i < query34.getCount(); i++) {
+            if (query34.moveToPosition(i)) {
+               Integer id = query34.getInt(0);
+//               System.out.println(id);
+                Cursor query3 = db.rawQuery("SELECT id FROM usersinchats WHERE userid = " + aid + " AND chatid = " + id, null);
+                if (query3.moveToFirst()){
+//                    System.out.println("pizda");
+                  chatid = id;
+                return chatid;
+
+                }
+                query3.close();
+            }
+        }
+        return chatid;
+    }
+
     public Integer UserSearchGetLastChatId(SQLiteDatabase db) {
         Cursor query34 = db.rawQuery("SELECT id FROM chats ", null);
         Integer chid = 0;
@@ -117,25 +138,26 @@ public class DbRequest {
         }
     }
 
-    public void UserSearchCreateChat(SQLiteDatabase db,Integer chid){
+    public void UserSearchCreateChat(SQLiteDatabase db, Integer chid) {
         db.execSQL("INSERT OR IGNORE INTO chats VALUES (" + chid + ")");
     }
-    public void UserSearchCreateUserInChat(SQLiteDatabase db,Integer fid, String id, Integer chid){
+
+    public void UserSearchCreateUserInChat(SQLiteDatabase db, Integer fid, String id, Integer chid) {
         db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES (" + fid + ",'" + id + "'," + chid + ")");
     }
 
-    public ArrayList<ChatList> ChatListGetCurrentUserChats(SQLiteDatabase db,String mid){
+    public ArrayList<ChatList> ChatListGetCurrentUserChats(SQLiteDatabase db, String mid) {
 
         ArrayList<ChatList> ChatLists = new ArrayList<ChatList>();
 
-        Cursor query = db.rawQuery("SELECT chatid FROM usersinchats  WHERE userid ="+mid, null);
-        for (Integer i = 0; i< query.getCount(); i++){
-            if(query.moveToPosition(i)){
-                Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats  WHERE chatid ="+query.getString(0), null);
-                for (Integer s = 0; s< query1.getCount(); s++){
-                    if(query1.moveToPosition(s)) {
+        Cursor query = db.rawQuery("SELECT chatid FROM usersinchats  WHERE userid =" + mid, null);
+        for (Integer i = 0; i < query.getCount(); i++) {
+            if (query.moveToPosition(i)) {
+                Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats  WHERE chatid =" + query.getString(0), null);
+                for (Integer s = 0; s < query1.getCount(); s++) {
+                    if (query1.moveToPosition(s)) {
                         Cursor query2 = db.rawQuery("SELECT name,surname FROM users  WHERE id =" + query1.getString(0) + " AND id !=" + mid, null);
-                        if(query2.moveToFirst()){
+                        if (query2.moveToFirst()) {
                             ChatLists.add(new ChatList(query2.getString(0), query2.getString(1), query.getString(0)));
 
                             query2.close();
@@ -149,5 +171,48 @@ public class DbRequest {
 
         }
         return ChatLists;
+    }
+    public ArrayList<UserMessage> GetAllMessagesInChat(SQLiteDatabase db,String chatid){
+        ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
+
+        Cursor query = db.rawQuery("SELECT * FROM messages WHERE chatid = " + chatid, null);
+        for (Integer i = 0; i < query.getCount(); i++) {
+            if (query.moveToPosition(i)) {
+                Cursor query1 = db.rawQuery("SELECT name,surname FROM users WHERE id =" + query.getString(1), null);
+                if (query1.moveToFirst()) {
+                    messages.add(new UserMessage(query1.getString(0), query1.getString(1), query.getString(3)));
+                    query1.close();
+                }
+            }
+        }
+        return messages;
+    }
+    public String GetAnotherUserInChat(SQLiteDatabase db, String mid,String chatid){
+        String Anothername = "";
+        Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats WHERE chatid = " + chatid + " AND userid!=" + mid, null);
+        if (query1.moveToFirst()) {
+            Anothername = query1.getString(0);
+        }
+        query1.close();
+
+        Cursor query2 = db.rawQuery("SELECT name,surname FROM users WHERE id = " + Anothername.toString(), null);
+        if (query2.moveToFirst()) {
+            Anothername = query2.getString(0) + " " + query2.getString(1);
+            query2.close();
+        }
+        return Anothername;
+    }
+
+    public void CreateNewMessageInChat(SQLiteDatabase db,String mid, String chatid, String text){
+        Cursor query3 = db.rawQuery("SELECT id FROM messages ", null);
+        Integer mesid = 0;
+        if (query3.moveToLast()) {
+            mesid = query3.getInt(0) + 1;
+        } else {
+            mesid = 1;
+        }
+
+        db.execSQL("INSERT OR IGNORE INTO messages VALUES (" + mesid + "," + mid + "," + chatid + ",'" + text + "')");
+
     }
 }
