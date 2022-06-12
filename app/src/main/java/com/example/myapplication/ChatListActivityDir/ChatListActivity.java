@@ -29,7 +29,7 @@ public class ChatListActivity extends AppCompatActivity {
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
-        ChatLists = dbRequest.ChatListGetCurrentUserChats(db, mid);
+        ChatLists = dbRequest.chatListGetCurrentUserChats(db, mid);
         RecyclerView recyclerView = findViewById(R.id.ChatList);
         ChatListClassAdapter.OnStateClickListener stateClickListener = new ChatListClassAdapter.OnStateClickListener() {
             @Override
@@ -42,7 +42,7 @@ public class ChatListActivity extends AppCompatActivity {
             }
         };
 
-        ChatListClassAdapter MyAdapter = new ChatListClassAdapter(this, ChatLists, stateClickListener);
-        recyclerView.setAdapter(MyAdapter);
+        ChatListClassAdapter myAdapter = new ChatListClassAdapter(this, ChatLists, stateClickListener);
+        recyclerView.setAdapter(myAdapter);
     }
 }

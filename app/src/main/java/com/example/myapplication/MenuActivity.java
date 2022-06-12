@@ -31,7 +31,7 @@ public class MenuActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
 
-        String username = dbRequest.MenuGetUserName(db,id);
+        String username = dbRequest.menuGetUserName(db,id);
             GreetingText.setText("Здравствуйте " + username);
 
 

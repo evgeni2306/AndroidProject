@@ -26,33 +26,33 @@ public class ChatActivity extends AppCompatActivity {
 
         ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
 
-        Button SendButton = findViewById(R.id.SendMessageButton);
-        EditText MessageField = findViewById(R.id.MessageField);
+        Button sendButton = findViewById(R.id.SendMessageButton);
+        EditText messageField = findViewById(R.id.MessageField);
         Bundle arguments = getIntent().getExtras();
         String mid = arguments.get("id").toString();
         String chatid = arguments.get("chatid").toString();
-        TextView AnotherUserName = findViewById(R.id.AnotherUserName);
+        TextView anotherUserName = findViewById(R.id.AnotherUserName);
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
 
-        messages = dbRequest.GetAllMessagesInChat(db, chatid);
+        messages = dbRequest.getAllMessagesInChat(db, chatid);
 
-        String Anothername = dbRequest.GetAnotherUserInChat(db, mid, chatid);
+        String anotherName = dbRequest.getAnotherUserInChat(db, mid, chatid);
 
-        AnotherUserName.setText(Anothername);
+        anotherUserName.setText(anotherName);
 
         RecyclerView recyclerView = findViewById(R.id.messagesList);
 
-        UserMessageAdapter MyAdapter = new UserMessageAdapter(this, messages);
+        UserMessageAdapter myAdapter = new UserMessageAdapter(this, messages);
 
-        recyclerView.setAdapter(MyAdapter);
+        recyclerView.setAdapter(myAdapter);
 
-        SendButton.setOnClickListener(new View.OnClickListener() {
+        sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (MessageField.length() > 0) {
+                if (messageField.length() > 0) {
 
-                    dbRequest.CreateNewMessageInChat(db, mid, chatid, MessageField.getText().toString());
+                    dbRequest.createNewMessageInChat(db, mid, chatid, messageField.getText().toString());
 
                     finish();
                     startActivity(getIntent());

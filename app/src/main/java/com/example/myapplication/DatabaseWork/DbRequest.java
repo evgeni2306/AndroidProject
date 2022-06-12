@@ -19,23 +19,23 @@ import java.util.ArrayList;
 
 public class DbRequest {
 
-    public void CreateTables(SQLiteDatabase db) {
+    public void createTables(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS users (id INTEGER UNIQUE  ,email TEXT,name TEXT,surname TEXT, password TEXT," +
                 "PRIMARY KEY(\"id\" AUTOINCREMENT))");
         db.execSQL("CREATE TABLE IF NOT EXISTS chats (id INTEGER UNIQUE,   PRIMARY KEY(\"id\"  AUTOINCREMENT))");
         db.execSQL("CREATE TABLE IF NOT EXISTS messages (id INTEGER UNIQUE,creatorid INTEGER, chatid INTEGER, text TEXT,FOREIGN KEY(creatorid) REFERENCES users(id),FOREIGN KEY(chatid) REFERENCES chats(id),   PRIMARY KEY(\"id\"  AUTOINCREMENT))");
         db.execSQL("CREATE TABLE IF NOT EXISTS usersinchats (id INTEGER UNIQUE, userid INTEGER, chatid INTEGER,  FOREIGN KEY(userid) REFERENCES users(id),FOREIGN KEY(chatid) REFERENCES chats(id),   PRIMARY KEY(\"id\"  AUTOINCREMENT))");
-        AddDefaultUser(db);
+        addDefaultUser(db);
     }
 
-    public void DropDatabase(SQLiteDatabase db) {
+    public void dropDatabase(SQLiteDatabase db) {
         db.execSQL("DROP TABLE users");
         db.execSQL("DROP TABLE messages");
         db.execSQL("DROP TABLE chats");
         db.execSQL("DROP TABLE usersinchats");
     }
 
-    public Integer AddNewUser(SQLiteDatabase db, String email, String name, String surname, String password) {
+    public Integer addNewUser(SQLiteDatabase db, String email, String name, String surname, String password) {
 
         Integer lastid = 0;
         Cursor query = db.rawQuery("SELECT id FROM users ", null);
@@ -53,7 +53,7 @@ public class DbRequest {
         return lastid;
     }
 
-    public void AddDefaultUser(SQLiteDatabase db) {
+    public void addDefaultUser(SQLiteDatabase db) {
 
         db.execSQL("INSERT OR IGNORE INTO users VALUES (" +
                 "1," +
@@ -64,7 +64,7 @@ public class DbRequest {
                 ")");
     }
 
-    public String MenuGetUserName(SQLiteDatabase db, String id) {
+    public String menuGetUserName(SQLiteDatabase db, String id) {
         Cursor query = db.rawQuery("SELECT name,surname FROM users WHERE id =" + id, null);
         if (query.moveToFirst()) {
             String name = query.getString(0);
@@ -77,7 +77,7 @@ public class DbRequest {
         }
     }
 
-    public ArrayList<UserSearch> UserSearchGetUsers(SQLiteDatabase db, String id) {
+    public ArrayList<UserSearch> userSearchGetUsers(SQLiteDatabase db, String id) {
         ArrayList<UserSearch> users = new ArrayList<UserSearch>();
 
         Cursor query = db.rawQuery("SELECT name,surname,id FROM users WHERE id !=" + id, null);
@@ -90,7 +90,7 @@ public class DbRequest {
         return users;
     }
 
-    public Integer UserSearchGetLastUserInChatId(SQLiteDatabase db) {
+    public Integer userSearchGetLastUserInChatId(SQLiteDatabase db) {
         Cursor query3 = db.rawQuery("SELECT id FROM usersinchats ", null);
         Integer fid = 0;
         if (query3.moveToLast()) {
@@ -104,7 +104,7 @@ public class DbRequest {
         }
     }
 
-    public Integer UserSearchCheckChatExist(SQLiteDatabase db, String mid, String aid) {
+    public Integer userSearchCheckChatExist(SQLiteDatabase db, String mid, String aid) {
         Integer chatid =0;
         Cursor query34 = db.rawQuery("SELECT id FROM usersinchats WHERE userid = " + mid, null);
         for (Integer i = 0; i < query34.getCount(); i++) {
@@ -124,7 +124,7 @@ public class DbRequest {
         return chatid;
     }
 
-    public Integer UserSearchGetLastChatId(SQLiteDatabase db) {
+    public Integer userSearchGetLastChatId(SQLiteDatabase db) {
         Cursor query34 = db.rawQuery("SELECT id FROM chats ", null);
         Integer chid = 0;
         if (query34.moveToLast()) {
@@ -138,17 +138,17 @@ public class DbRequest {
         }
     }
 
-    public void UserSearchCreateChat(SQLiteDatabase db, Integer chid) {
+    public void userSearchCreateChat(SQLiteDatabase db, Integer chid) {
         db.execSQL("INSERT OR IGNORE INTO chats VALUES (" + chid + ")");
     }
 
-    public void UserSearchCreateUserInChat(SQLiteDatabase db, Integer fid, String id, Integer chid) {
+    public void userSearchCreateUserInChat(SQLiteDatabase db, Integer fid, String id, Integer chid) {
         db.execSQL("INSERT OR IGNORE INTO usersinchats VALUES (" + fid + ",'" + id + "'," + chid + ")");
     }
 
-    public ArrayList<ChatList> ChatListGetCurrentUserChats(SQLiteDatabase db, String mid) {
+    public ArrayList<ChatList> chatListGetCurrentUserChats(SQLiteDatabase db, String mid) {
 
-        ArrayList<ChatList> ChatLists = new ArrayList<ChatList>();
+        ArrayList<ChatList> chatLists = new ArrayList<ChatList>();
 
         Cursor query = db.rawQuery("SELECT chatid FROM usersinchats  WHERE userid =" + mid, null);
         for (Integer i = 0; i < query.getCount(); i++) {
@@ -158,7 +158,7 @@ public class DbRequest {
                     if (query1.moveToPosition(s)) {
                         Cursor query2 = db.rawQuery("SELECT name,surname FROM users  WHERE id =" + query1.getString(0) + " AND id !=" + mid, null);
                         if (query2.moveToFirst()) {
-                            ChatLists.add(new ChatList(query2.getString(0), query2.getString(1), query.getString(0)));
+                            chatLists.add(new ChatList(query2.getString(0), query2.getString(1), query.getString(0)));
 
                             query2.close();
                         }
@@ -170,9 +170,9 @@ public class DbRequest {
             }
 
         }
-        return ChatLists;
+        return chatLists;
     }
-    public ArrayList<UserMessage> GetAllMessagesInChat(SQLiteDatabase db,String chatid){
+    public ArrayList<UserMessage> getAllMessagesInChat(SQLiteDatabase db,String chatid){
         ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
 
         Cursor query = db.rawQuery("SELECT * FROM messages WHERE chatid = " + chatid, null);
@@ -187,7 +187,7 @@ public class DbRequest {
         }
         return messages;
     }
-    public String GetAnotherUserInChat(SQLiteDatabase db, String mid,String chatid){
+    public String getAnotherUserInChat(SQLiteDatabase db, String mid,String chatid){
         String Anothername = "";
         Cursor query1 = db.rawQuery("SELECT userid FROM usersinchats WHERE chatid = " + chatid + " AND userid!=" + mid, null);
         if (query1.moveToFirst()) {
@@ -203,7 +203,7 @@ public class DbRequest {
         return Anothername;
     }
 
-    public void CreateNewMessageInChat(SQLiteDatabase db,String mid, String chatid, String text){
+    public void createNewMessageInChat(SQLiteDatabase db,String mid, String chatid, String text){
         Cursor query3 = db.rawQuery("SELECT id FROM messages ", null);
         Integer mesid = 0;
         if (query3.moveToLast()) {

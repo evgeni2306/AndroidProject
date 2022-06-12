@@ -26,7 +26,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
 
-        TextView GreetingSearch = findViewById(R.id.GreetingSearch);
+        TextView greetingSearch = findViewById(R.id.GreetingSearch);
 
         Bundle arguments = getIntent().getExtras();
         String id = arguments.get("id").toString();
@@ -34,8 +34,8 @@ public class SearchActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
 
-        users = dbRequest.UserSearchGetUsers(db, id);
-        GreetingSearch.setText("Найдено пользователей: " + users.size());
+        users = dbRequest.userSearchGetUsers(db, id);
+        greetingSearch.setText("Найдено пользователей: " + users.size());
 
 
         RecyclerView recyclerView = findViewById(R.id.ListUsers);
@@ -46,29 +46,29 @@ public class SearchActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(SearchActivity.this, ChatActivity.class);
                 intent.putExtra("id", id);
-                Integer Check = dbRequest.UserSearchCheckChatExist(db,id,userSearch.getid());
-                if (Check == 0){
+                Integer check = dbRequest.userSearchCheckChatExist(db,id,userSearch.getid());
+                if (check == 0){
 
-                    Integer fid = dbRequest.UserSearchGetLastUserInChatId(db);
+                    Integer fid = dbRequest.userSearchGetLastUserInChatId(db);
                     Integer sid = fid+1;
-                    Integer chid = dbRequest.UserSearchGetLastChatId(db);
-                    dbRequest.UserSearchCreateChat(db,chid);
-                    dbRequest.UserSearchCreateUserInChat(db,fid,id,chid);
-                    dbRequest.UserSearchCreateUserInChat(db,sid,userSearch.getid(),chid);
+                    Integer chid = dbRequest.userSearchGetLastChatId(db);
+                    dbRequest.userSearchCreateChat(db,chid);
+                    dbRequest.userSearchCreateUserInChat(db,fid,id,chid);
+                    dbRequest.userSearchCreateUserInChat(db,sid,userSearch.getid(),chid);
 
                     intent.putExtra("chatid", chid);
 
                 }else{
-                    intent.putExtra("chatid", Check);
+                    intent.putExtra("chatid", check);
                 }
                 startActivity(intent);
 
 
             }
         };
-        UserSearchAdapter MyAdapter = new UserSearchAdapter(this, users, stateClickListener);
+        UserSearchAdapter myAdapter = new UserSearchAdapter(this, users, stateClickListener);
 
-        recyclerView.setAdapter(MyAdapter);
+        recyclerView.setAdapter(myAdapter);
 
     }
 }
