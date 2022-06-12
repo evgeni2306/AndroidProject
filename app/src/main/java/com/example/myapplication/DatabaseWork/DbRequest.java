@@ -110,10 +110,10 @@ public class DbRequest {
         for (Integer i = 0; i < query34.getCount(); i++) {
             if (query34.moveToPosition(i)) {
                Integer id = query34.getInt(0);
-//               System.out.println(id);
+
                 Cursor query3 = db.rawQuery("SELECT id FROM usersinchats WHERE userid = " + aid + " AND chatid = " + id, null);
                 if (query3.moveToFirst()){
-//                    System.out.println("pizda");
+
                   chatid = id;
                 return chatid;
 

@@ -40,10 +40,18 @@ public class MainActivity extends AppCompatActivity {
                 if (emailField.getText().length() > 0 && nameField.getText().length() > 0 && surnameField.getText().length() > 0 && passwordField.getText().length() > 0) {
 
                     if (checkEmail(emailField.getText().toString()) == true) {
-                        Integer id = dbRequest.addNewUser(db, emailField.getText().toString(), nameField.getText().toString(), surnameField.getText().toString(), passwordField.getText().toString());
-                        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                        intent.putExtra("id", id);
-                        startActivity(intent);
+
+                        Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {Integer id = dbRequest.addNewUser(db, emailField.getText().toString(), nameField.getText().toString(), surnameField.getText().toString(), passwordField.getText().toString());
+                                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                                intent.putExtra("id", id);
+                                startActivity(intent);
+                            }
+                        };
+                        Thread thread = new Thread(runnable);
+                        thread.start();
+
                     } else {
                         messageField.setText("Email некорректен");
                     }

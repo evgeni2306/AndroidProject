@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.DatabaseWork.DbRequest;
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.MenuActivity;
 import com.example.myapplication.R;
 
 import android.os.Bundle;
@@ -33,9 +35,10 @@ public class SearchActivity extends AppCompatActivity {
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
-
         users = dbRequest.userSearchGetUsers(db, id);
         greetingSearch.setText("Найдено пользователей: " + users.size());
+
+
 
 
         RecyclerView recyclerView = findViewById(R.id.ListUsers);
@@ -46,6 +49,10 @@ public class SearchActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(SearchActivity.this, ChatActivity.class);
                 intent.putExtra("id", id);
+
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
                 Integer check = dbRequest.userSearchCheckChatExist(db,id,userSearch.getid());
                 if (check == 0){
 
@@ -62,7 +69,10 @@ public class SearchActivity extends AppCompatActivity {
                     intent.putExtra("chatid", check);
                 }
                 startActivity(intent);
-
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
 
             }
         };

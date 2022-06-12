@@ -31,6 +31,7 @@ public class ChatListActivity extends AppCompatActivity {
         DbRequest dbRequest = new DbRequest();
         ChatLists = dbRequest.chatListGetCurrentUserChats(db, mid);
         RecyclerView recyclerView = findViewById(R.id.ChatList);
+
         ChatListClassAdapter.OnStateClickListener stateClickListener = new ChatListClassAdapter.OnStateClickListener() {
             @Override
             public void onStateClick(ChatList getid, int position) {

@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.content.Intent;
 
 import com.example.myapplication.DatabaseWork.DbRequest;
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.MenuActivity;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
@@ -35,30 +37,34 @@ public class ChatActivity extends AppCompatActivity {
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
-
         messages = dbRequest.getAllMessagesInChat(db, chatid);
-
-        String anotherName = dbRequest.getAnotherUserInChat(db, mid, chatid);
-
-        anotherUserName.setText(anotherName);
-
         RecyclerView recyclerView = findViewById(R.id.messagesList);
 
         UserMessageAdapter myAdapter = new UserMessageAdapter(this, messages);
 
         recyclerView.setAdapter(myAdapter);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (messageField.length() > 0) {
+        String anotherName = dbRequest.getAnotherUserInChat(db, mid, chatid);
+        anotherUserName.setText(anotherName);
+                sendButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if (messageField.length() > 0) {
 
-                    dbRequest.createNewMessageInChat(db, mid, chatid, messageField.getText().toString());
+                            dbRequest.createNewMessageInChat(db, mid, chatid, messageField.getText().toString());
 
-                    finish();
-                    startActivity(getIntent());
-                }
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    }
+                });
             }
-        });
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+
 
     }
 
