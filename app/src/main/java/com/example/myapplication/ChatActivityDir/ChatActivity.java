@@ -34,9 +34,8 @@ public class ChatActivity extends AppCompatActivity {
         String mid = arguments.get("id").toString();
         String chatid = arguments.get("chatid").toString();
         TextView anotherUserName = findViewById(R.id.AnotherUserName);
-
-        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
+        SQLiteDatabase db = dbRequest.dataBaseConnect(this);
         messages = dbRequest.getAllMessagesInChat(db, chatid);
         RecyclerView recyclerView = findViewById(R.id.messagesList);
 

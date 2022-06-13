@@ -19,9 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
+        SQLiteDatabase db = dbRequest.dataBaseConnect(this);
         dbRequest.createTables(db);
 //        dbRequest.dropDatabase(db);
 

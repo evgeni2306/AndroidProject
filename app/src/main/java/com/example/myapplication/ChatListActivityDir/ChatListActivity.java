@@ -26,9 +26,8 @@ public class ChatListActivity extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
         String mid = arguments.get("id").toString();
-
-        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
+        SQLiteDatabase db = dbRequest.dataBaseConnect(this);
         ChatLists = dbRequest.chatListGetCurrentUserChats(db, mid);
         RecyclerView recyclerView = findViewById(R.id.ChatList);
 

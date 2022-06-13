@@ -33,8 +33,8 @@ public class SearchActivity extends AppCompatActivity {
         Bundle arguments = getIntent().getExtras();
         String id = arguments.get("id").toString();
 
-        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
         DbRequest dbRequest = new DbRequest();
+        SQLiteDatabase db = dbRequest.dataBaseConnect(this);
         users = dbRequest.userSearchGetUsers(db, id);
         greetingSearch.setText("Найдено пользователей: " + users.size());
 

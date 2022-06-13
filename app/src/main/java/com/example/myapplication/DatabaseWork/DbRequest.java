@@ -1,5 +1,7 @@
 package com.example.myapplication.DatabaseWork;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.TextView;
 import android.content.Intent;
+import android.content.Context;
 
 import com.example.myapplication.ChatActivityDir.UserMessage;
 import com.example.myapplication.ChatListActivityDir.ChatList;
@@ -18,6 +21,11 @@ import com.example.myapplication.UserSearchActivityDir.UserSearch;
 import java.util.ArrayList;
 
 public class DbRequest {
+
+    public SQLiteDatabase dataBaseConnect(Context context){
+        SQLiteDatabase db = context.openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+        return db;
+    }
 
     public void createTables(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS users (id INTEGER UNIQUE  ,email TEXT,name TEXT,surname TEXT, password TEXT," +
