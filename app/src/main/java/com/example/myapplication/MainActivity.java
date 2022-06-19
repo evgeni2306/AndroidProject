@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.TextView;
 import android.content.Intent;
-
+import android.os.StrictMode;
 import com.example.myapplication.DatabaseWork.DbRequest;
 
 
@@ -17,11 +17,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()
+                    .penaltyLog()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DbRequest dbRequest = new DbRequest();
-        SQLiteDatabase db = dbRequest.dataBaseConnect(this);
-        dbRequest.createTables(db);
+        DbRequest dbRequest = new DbRequest(this);
+//        SQLiteDatabase db = dbRequest.dataBaseConnect(this);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {dbRequest.createTables();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+
 //        dbRequest.dropDatabase(db);
 
 
@@ -42,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Runnable runnable = new Runnable() {
                             @Override
-                            public void run() {Integer id = dbRequest.addNewUser(db, emailField.getText().toString(), nameField.getText().toString(), surnameField.getText().toString(), passwordField.getText().toString());
+                            public void run() {Integer id = dbRequest.addNewUser( emailField.getText().toString(), nameField.getText().toString(), surnameField.getText().toString(), passwordField.getText().toString());
                                 Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                                 intent.putExtra("id", id);
                                 startActivity(intent);

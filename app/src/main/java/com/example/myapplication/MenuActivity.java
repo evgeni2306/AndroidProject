@@ -27,13 +27,12 @@ public class MenuActivity extends AppCompatActivity {
         Bundle arguments = getIntent().getExtras();
         String id = arguments.get("id").toString();
 
-        DbRequest dbRequest = new DbRequest();
-        SQLiteDatabase db = dbRequest.dataBaseConnect(this);
+        DbRequest dbRequest = new DbRequest(this);
 
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                String username = dbRequest.menuGetUserName(db,id);
+                String username = dbRequest.menuGetUserName(id);
                 GreetingText.setText("Здравствуйте " + username);
             }
         };
